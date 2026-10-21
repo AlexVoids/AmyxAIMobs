@@ -1,0 +1,404 @@
+# AmyxAIMobs 1.0.0. После изменения: /aimobs reload
+# Старые значения при обновлении сохраняются. 0 в лимите запрещает появление.
+# Лимиты entity-type-limits считаются на весь сервер, остальные — по имени ключа.
+natural-spawning: true
+spawn-config-version: 12
+
+spawn-cycle-seconds: 10
+spawn-chance-percent: 42
+spawn-chunks-per-player: 5
+spawn-attempts-per-chunk: 2
+spawn-successes-per-world: 3
+spawn-min-player-distance: 24
+
+structure-spawning: false
+structure-scan-chunks-per-cycle: 3
+structure-queue-per-second: 4
+prepopulate-loaded-chunks: true
+chunk-prepopulate-chance-percent: 14
+structure-replenish-cycles: 50
+always-tick-loaded-mobs: true
+structure-respawn-seconds: 600
+
+global-mob-cap: 135
+per-world-mob-cap: 90
+per-world-passive-cap: 40
+per-world-hostile-cap: 38
+local-mob-cap: 36
+local-passive-cap: 16
+local-hostile-cap: 16
+local-mob-cap-radius: 48
+natural-despawn-distance: 112
+
+water-herd-spawning: true
+per-world-aquatic-cap: 40
+local-aquatic-cap: 20
+
+explosion-block-damage: true
+creeper-max-damage: 16.0
+
+creative-egg-profile: "grouped-creeper-main"
+
+auto-detect-worlds: true
+worlds:
+  "skyblock": "overworld"
+  "normal": "overworld"
+  "nether": "nether"
+  "the_end": "the_end"
+
+entity-type-limits:
+  cow: 22
+  mooshroom: 6
+  pig: 18
+  sheep: 26
+  chicken: 26
+  horse: 6
+  donkey: 4
+  mule: 0
+  llama: 4
+  traderllama: 0
+  wolf: 7
+  cat: 0
+  ocelot: 0
+  panda: 3
+  fox: 5
+  goat: 4
+  parrot: 5
+  bat: 0
+
+  squid: 10
+  glowsquid: 6
+  dolphin: 4
+  axolotl: 0
+  turtle: 6
+  cod: 36
+  salmon: 30
+  pufferfish: 8
+  tropicalfish: 24
+  tadpole: 0
+
+  villager: 20
+  wanderingtrader: 0
+  irongolem: 0
+  snowgolem: 0
+  allay: 0
+  bee: 7
+  frog: 0
+  sniffer: 0
+  camel: 0
+
+  zombie: 14
+  skeleton: 13
+  creeper: 8
+  spider: 12
+  cavespider: 0
+  slime: 7
+  silverfish: 3
+  witch: 3
+  zombievillager: 3
+  drowned: 8
+  husk: 0
+  stray: 0
+  phantom: 0
+  enderman: 6
+  vindicator: 0
+  evoker: 0
+  pillager: 10
+  ravager: 0
+  vex: 0
+  guardian: 0
+  elderguardian: 0
+  warden: 0
+
+  zombifiedpiglin: 0
+  piglin: 11
+  piglinbrute: 0
+  blaze: 7
+  ghast: 4
+  magmacube: 8
+  witherskeleton: 6
+  hoglin: 9
+  zoglin: 0
+  strider: 0
+
+  shulker: 0
+  endermite: 0
+# Максимальное расстояние до ближайшего живого игрока в выживании/приключении.
+# В творческом режиме и наблюдении естественный спавн не запускается.
+spawn-max-player-distance: 96
+spawn-radius-chunks: 6
+# Для враждебных мобов обычного мира: 0 соответствует темноте в 1.18+.
+# Это уровень света БЛОКОВ; время суток и поверхность проверяются отдельно.
+hostile-max-block-light: 0
+# Коровы/овцы/свиньи/куры/лошади/ослы появляются на травяном блоке.
+passive-require-grass: true
+# Сохранять естественно появившихся наземных животных вдали от игроков.
+despawn-passive: false
+
+ai:
+  pathfinding: true
+  # A* только в загруженных чанках. Лестницы, плавание и полёт используют исходное поведение.
+  repath-ticks: 20
+  max-path-nodes: 192
+  path-radius: 24
+  paths-per-tick: 4
+  # Общий временной бюджет поиска путей за тик, миллисекунды.
+  path-budget-ms: 3.0
+
+# Наложение на правила биома исходного плагина, а не принудительный спавн везде.
+# Имена мобов без пробелов и подчёркиваний: zombievillager, tropicalfish и т.д.
+# enabled, weight-multiplier (0 отключает), min-y, max-y, time: any/day/night,
+# max-block-light, biomes: [точные имена биомов в нижнем регистре].
+# group-min/max — для cow/sheep/pig/chicken и рыб/кальмаров, включая первого моба.
+mobs:
+  cow:
+    enabled: true
+    weight-multiplier: 1.0
+    group-min: 1
+    group-max: 3
+  mooshroom:
+    enabled: true
+    weight-multiplier: 1.0
+  pig:
+    enabled: true
+    weight-multiplier: 1.0
+    group-min: 1
+    group-max: 3
+  sheep:
+    enabled: true
+    weight-multiplier: 1.0
+    group-min: 1
+    group-max: 3
+  chicken:
+    enabled: true
+    weight-multiplier: 1.0
+    group-min: 1
+    group-max: 3
+  horse:
+    enabled: true
+    weight-multiplier: 1.0
+  donkey:
+    enabled: true
+    weight-multiplier: 1.0
+  mule:
+    enabled: true
+    weight-multiplier: 1.0
+  llama:
+    enabled: true
+    weight-multiplier: 1.0
+  traderllama:
+    enabled: false
+    weight-multiplier: 1.0
+  wolf:
+    enabled: true
+    weight-multiplier: 1.0
+  cat:
+    enabled: true
+    weight-multiplier: 1.0
+  ocelot:
+    enabled: true
+    weight-multiplier: 1.0
+  panda:
+    enabled: true
+    weight-multiplier: 1.0
+  fox:
+    enabled: true
+    weight-multiplier: 1.0
+  goat:
+    enabled: true
+    weight-multiplier: 1.0
+  parrot:
+    enabled: true
+    weight-multiplier: 1.0
+  bat:
+    enabled: true
+    weight-multiplier: 1.0
+  squid:
+    enabled: true
+    weight-multiplier: 1.0
+    group-min: 2
+    group-max: 4
+  glowsquid:
+    enabled: true
+    weight-multiplier: 1.0
+    group-min: 2
+    group-max: 4
+  dolphin:
+    enabled: true
+    weight-multiplier: 1.0
+  axolotl:
+    enabled: true
+    weight-multiplier: 1.0
+  turtle:
+    enabled: true
+    weight-multiplier: 1.0
+  cod:
+    enabled: true
+    weight-multiplier: 1.0
+    group-min: 5
+    group-max: 8
+  salmon:
+    enabled: true
+    weight-multiplier: 1.0
+    group-min: 4
+    group-max: 6
+  pufferfish:
+    enabled: true
+    weight-multiplier: 1.0
+    group-min: 1
+    group-max: 3
+  tropicalfish:
+    enabled: true
+    weight-multiplier: 1.0
+    group-min: 4
+    group-max: 7
+  tadpole:
+    enabled: true
+    weight-multiplier: 1.0
+  villager:
+    enabled: true
+    weight-multiplier: 1.0
+  wanderingtrader:
+    enabled: false
+    weight-multiplier: 1.0
+  irongolem:
+    enabled: true
+    weight-multiplier: 1.0
+  snowgolem:
+    enabled: true
+    weight-multiplier: 1.0
+  allay:
+    enabled: true
+    weight-multiplier: 1.0
+  bee:
+    enabled: true
+    weight-multiplier: 1.0
+  frog:
+    enabled: true
+    weight-multiplier: 1.0
+  sniffer:
+    enabled: true
+    weight-multiplier: 1.0
+  camel:
+    enabled: true
+    weight-multiplier: 1.0
+  zombie:
+    enabled: true
+    weight-multiplier: 1.0
+  skeleton:
+    enabled: true
+    weight-multiplier: 1.0
+  creeper:
+    enabled: true
+    weight-multiplier: 1.0
+  spider:
+    enabled: true
+    weight-multiplier: 1.0
+  cavespider:
+    enabled: true
+    weight-multiplier: 1.0
+  slime:
+    enabled: true
+    weight-multiplier: 1.0
+  silverfish:
+    enabled: true
+    weight-multiplier: 1.0
+  witch:
+    enabled: true
+    weight-multiplier: 1.0
+  zombievillager:
+    enabled: true
+    weight-multiplier: 1.0
+  drowned:
+    enabled: true
+    weight-multiplier: 1.0
+  husk:
+    enabled: true
+    weight-multiplier: 1.0
+  stray:
+    enabled: true
+    weight-multiplier: 1.0
+  phantom:
+    enabled: true
+    weight-multiplier: 1.0
+  enderman:
+    enabled: true
+    weight-multiplier: 1.0
+  vindicator:
+    enabled: true
+    weight-multiplier: 1.0
+  evoker:
+    enabled: true
+    weight-multiplier: 1.0
+  pillager:
+    enabled: true
+    weight-multiplier: 1.0
+  ravager:
+    enabled: true
+    weight-multiplier: 1.0
+  vex:
+    enabled: true
+    weight-multiplier: 1.0
+  guardian:
+    enabled: true
+    weight-multiplier: 1.0
+  elderguardian:
+    enabled: true
+    weight-multiplier: 1.0
+  warden:
+    enabled: true
+    weight-multiplier: 1.0
+  zombifiedpiglin:
+    enabled: true
+    weight-multiplier: 1.0
+  piglin:
+    enabled: true
+    weight-multiplier: 1.0
+  piglinbrute:
+    enabled: true
+    weight-multiplier: 1.0
+  blaze:
+    enabled: true
+    weight-multiplier: 1.0
+  ghast:
+    enabled: true
+    weight-multiplier: 1.0
+  magmacube:
+    enabled: true
+    weight-multiplier: 1.0
+  witherskeleton:
+    enabled: true
+    weight-multiplier: 1.0
+  hoglin:
+    enabled: true
+    weight-multiplier: 1.0
+  zoglin:
+    enabled: true
+    weight-multiplier: 1.0
+  strider:
+    enabled: true
+    weight-multiplier: 1.0
+  shulker:
+    enabled: true
+    weight-multiplier: 1.0
+  endermite:
+    enabled: true
+    weight-multiplier: 1.0
+
+# По умолчанию правила действуют для всех разрешённых миров.
+# Поддерживаются: enabled, natural-spawning, per-world-*-cap, local-*-cap,
+# spawn-chance-percent, spawn-min/max-player-distance, spawn-radius-chunks,
+# hostile-max-block-light, entity-type-limits и mobs.
+# Пример (раскомментируйте вместо world-overrides: {}):
+# world-overrides:
+#   lobby:
+#     enabled: false
+#   survival:
+#     per-world-mob-cap: 70
+#     spawn-chance-percent: 60
+#     mobs:
+#       creeper:
+#         enabled: false
+#       zombie:
+#         weight-multiplier: 1.5
+world-overrides: {}

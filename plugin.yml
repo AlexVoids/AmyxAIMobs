@@ -1,0 +1,25 @@
+name: AmyxAIMobs
+version: 1.0.0
+main: BeeAZ\AZVanillaMobs\Main
+api: 5.0.0
+authors: [BeeAZ, AlexVoids]
+description: Configurable spawning and improved mob navigation for PocketMine-MP 5
+permissions:
+  azvanillamobs.command.summon:
+    description: "Allows summoning of AZVanillaMobs"
+    default: op
+  azvanillamobs.command.kill:
+    description: "Allows killing of AZVanillaMobs"
+    default: op
+
+  azvanillamobs.command.structure:
+    description: "Allows spawning structure-bound mob groups"
+    default: op
+
+  azvanillamobs.command.structureloot:
+    description: "Allows filling structure chests across the map"
+    default: op
+
+  amyxaimobs.admin:
+    description: "Настройки и диагностика мобов"
+    default: op

@@ -1,0 +1,3 @@
+a51ec7ab126abb9545a8ef35ebae99a39b77ab07c973c3514d96eba0f9b68e59  AmyxAIMobs.phar
+128914e3135d170664608f9aa4f85bb545ab17f755390b38f0f9051db2b821d4  AmyxAIMobs-install.zip
+7b5bd5f59b523315be510449bbe0caa6de5fcbb22afab73830d1d10044e20ad8  AmyxAIMobs-source.zip
