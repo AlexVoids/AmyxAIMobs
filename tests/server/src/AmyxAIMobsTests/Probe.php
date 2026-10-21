@@ -25,8 +25,50 @@ final class Probe extends PluginBase{
         try{
             $plugin=$this->getServer()->getPluginManager()->getPlugin('AmyxAIMobs');
             $world=$this->getServer()->getWorldManager()->getDefaultWorld();
+            foreach([StationaryZombie::class,StationarySkeleton::class] as $class){
+                \pocketmine\entity\EntityFactory::getInstance()->register($class,static fn(\pocketmine\world\World $w,\pocketmine\nbt\tag\CompoundTag $nbt): \pocketmine\entity\Entity=>new $class(\pocketmine\entity\EntityDataHelper::parseLocation($nbt,$w),$nbt),['AmyxAIMobsTests:'.$class]);
+            }
             for($cx=-1;$cx<=3;$cx++){ for($cz=-1;$cz<=1;$cz++){ $world->setChunk($cx,$cz,new \pocketmine\world\format\Chunk([],true)); } }
             for($x=-10;$x<=60;$x++){ for($z=-10;$z<=20;$z++){ $world->setBlockAt($x,99,$z,VanillaBlocks::GRASS()); } }
+            $this->test('daylight fire damages exposed zombie and skeleton near a player',function() use($world): void{
+                $player=new SyntheticPlayer(new \pocketmine\world\Position(40.5,100,10.5,$world));
+                $rp=new \ReflectionProperty($world,'players');$old=$rp->getValue($world);$rp->setValue($world,[$player->getId()=>$player]);
+                $world->setTime(1000);
+                try{
+                    foreach([StationaryZombie::class,StationarySkeleton::class] as $class){
+                        $mob=new $class(new Location(40.5,100,10.5,$world,0,0));$mob->getArmorInventory()->clearAll();
+                        try{
+                            (new \ReflectionProperty($mob,'tickOffset'))->setValue($mob,0);
+                            for($i=1;$i<=120;$i++){ $mob->onUpdate($this->getServer()->getTick()+$i); }
+                            self::ok($mob->isOnFire(),'Exposed mob did not ignite');
+                            self::ok($mob->getHealth()<20,'Repeated sunlight ignition prevents all native fire damage: '.$class);
+                        }finally{ $mob->close(); }
+                    }
+                }finally{ $rp->setValue($world,$old); }
+            });
+            $this->test('daylight fire respects fire resistance, helmet, roof, rain and nighttime',function() use($world): void{
+                $player=new SyntheticPlayer(new \pocketmine\world\Position(40.5,100,10.5,$world));
+                $rp=new \ReflectionProperty($world,'players');$old=$rp->getValue($world);$rp->setValue($world,[$player->getId()=>$player]);
+                try{
+                    foreach(['resistance','helmet','roof','rain','night'] as $kind){
+                        $world->setTime($kind==='night'?14000:1000);
+                        $mob=new StationaryZombie(new Location(40.5,100,10.5,$world,0,0));$mob->getArmorInventory()->clearAll();
+                        (new \ReflectionProperty($mob,'tickOffset'))->setValue($mob,0);
+                        try{
+                            if($kind==='resistance'){ $mob->getEffects()->add(new \pocketmine\entity\effect\EffectInstance(\pocketmine\entity\effect\VanillaEffects::FIRE_RESISTANCE(),400)); }
+                            if($kind==='helmet'){ $mob->getArmorInventory()->setHelmet(\pocketmine\item\VanillaItems::DIAMOND_HELMET()); }
+                            if($kind==='roof'){ $world->setBlockAt(40,103,10,VanillaBlocks::STONE()); }
+                            if($kind==='rain'){ \BeeAZ\AZVanillaMobs\listener\EventListener::$rainingWorlds[$world->getFolderName()]=true; }
+                            for($i=1;$i<=120;$i++){ $mob->onUpdate($this->getServer()->getTick()+$i); }
+                            self::ok($mob->getHealth()===20.0,'Protected mob took damage: '.$kind);
+                            if($kind!=='resistance'){ self::ok(!$mob->isOnFire(),'Protected mob ignited: '.$kind); }
+                        }finally{
+                            $mob->close();$world->setBlockAt(40,103,10,VanillaBlocks::AIR());
+                            unset(\BeeAZ\AZVanillaMobs\listener\EventListener::$rainingWorlds[$world->getFolderName()]);
+                        }
+                    }
+                }finally{ $world->setTime(1000);$rp->setValue($world,$old); }
+            });
             $this->test('migration preserves legacy data and fresh config comments',function() use($plugin): void{
                 $path=$plugin->getDataFolder();
                 if(getenv('AMYXAIMOBS_TEST_MIGRATION')==='1'){

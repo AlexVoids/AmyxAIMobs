@@ -37,4 +37,4 @@ with (server/'test.log').open('w') as log:
 result=server/'amyxaimobs-results.json'
 if run.returncode or not result.exists(): raise SystemExit(f'Server failed: {server}/test.log')
 results=json.loads(result.read_text());print(json.dumps(results,ensure_ascii=False));print(f'Logs: {server}')
-if results['failures'] or results['passed']<5: raise SystemExit(1)
+if results['failures'] or results['passed']<16: raise SystemExit(1)

@@ -690,7 +690,10 @@ abstract class BaseMob extends Living
                     $z = $this->location->getFloorZ();
                     if ($this->getWorld()->isChunkGenerated($x >> 4, $z >> 4) && $this->getWorld()->getHighestBlockAt($x, $z) <= $this->location->getFloorY()) {
                         $helmet = $this->getArmorInventory() !== null ? $this->getArmorInventory()->getHelmet() : null;
-                        if ($helmet === null || $helmet->isNull()) {
+                        // The core deals fire damage when its countdown reaches
+                        // a multiple of 20. Resetting it to 160 every AI step
+                        // prevents that tick when a nearby player keeps AI at 10 ticks.
+                        if (($helmet === null || $helmet->isNull()) && !$this->isOnFire()) {
                             $this->setOnFire(8);
                         }
                     }

@@ -1,4 +1,4 @@
-# AmyxAIMobs 1.0.0. После изменения: /aimobs reload
+# AmyxAIMobs 1.0.1. После изменения: /aimobs reload
 # Старые значения при обновлении сохраняются. 0 в лимите запрещает появление.
 # Лимиты entity-type-limits считаются на весь сервер, остальные — по имени ключа.
 natural-spawning: true
